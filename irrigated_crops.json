@@ -4,11 +4,6 @@
       "SpeciesName": "Maize",
       "Cultivars": [
         {
-          "CultivarName": "Grain Maize",
-          "CropID": "GM",
-          "Irrigated": true
-        },
-        {
           "CultivarName": "Silage Maize",
           "CropID": ["SM", "SM_dwd", "SM_sfix_hauto"],
           "Irrigated": true
@@ -39,14 +34,44 @@
       "SpeciesName": "Wheat",
       "Cultivars": [
         {
-          "CultivarName": "Spring Wheat",
-          "CropID": "SW",
-          "Irrigated": true
-        },
-        {
           "CultivarName": "Winter Wheat",
           "CropID": ["WW", "WW_dwd", "WW_sfix_hauto"],
           "Irrigated": true
+        }
+      ]
+    },
+    {
+      "SpeciesName": "Rye",
+      "Cultivars": [
+        {
+          "CultivarName": "Winter Rye",
+          "CropID": ["WR", "WR_dwd", "WR_sfix_hauto"],
+          "Irrigated": false
+        }
+      ]
+    },
+    {
+      "SpeciesName": "Barley",
+      "Cultivars": [
+        {
+          "CultivarName": "Spring Barley",
+          "CropID": ["SB", "SB_dwd", "SB_sfix_hauto"],
+          "Irrigated": false
+        },
+        {
+          "CultivarName": "Winter Barley",
+          "CropID": ["WB", "WB_dwd", "WB_sfix_hauto"],
+          "Irrigated": false
+        }
+      ]
+    },
+    {
+      "SpeciesName": "Rapeseed",
+      "Cultivars": [
+        {
+          "CultivarName": "Winter Rapeseed",
+          "CropID": ["WRa", "WRa_dwd", "WRa_sfix_hauto"],
+          "Irrigated": false
         }
       ]
     }
