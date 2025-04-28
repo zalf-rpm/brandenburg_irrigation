@@ -32,7 +32,7 @@ from rasterio import features
 import monica_io3
 import soil_io3
 import monica_run_lib as Mrunlib
-# from irrigation_manager import IrrigationManager
+from irrigation_manager import IrrigationManager
 
 PATHS = {
     # adjust the local path to your environment
@@ -44,7 +44,7 @@ PATHS = {
         "path-to-data-dir": "./data/",  # mounted path to archive or hard drive with data
         "path-debug-write-folder": "./debug-out/",
     },
-    # adjust the local path to your environmen
+    # adjust the local path to your environment
     "ow-local-remote": {
         # "include-file-base-path": "/home/berg/GitHub/monica-parameters/", # path to monica-parameters
         "path-to-climate-dir": "/beegfs/common/data/climate/",
@@ -87,7 +87,7 @@ DATA_SOIL_DB = "germany/buek200.sqlite"
 DATA_GRID_HEIGHT = "germany/dem_100_25832_etrs89-utm32n.asc"
 DATA_GRID_SLOPE = "germany/slope_100_25832_etrs89-utm32n.asc"
 DATA_GRID_SOIL = "germany/buek200_100_25832_etrs89-utm32n.asc"
-# DATA_GRID_IRRIGATION = "germany/irrigation_1000_25832_etrs89-utm32n_wc_18.asc"
+DATA_GRID_IRRIGATION = "germany/irrigation_100_25832_etrs89-utms32n_allcrops_2018.asc"
 
 TEMPLATE_PATH_LATLON = "{path_to_climate_dir}/latlon-to-rowcol.json"
 # TEMPLATE_PATH_LATLON = "data/latlon_to_rowcol.json"
@@ -240,18 +240,18 @@ def run_producer(server={"server": None, "port": None}, shared_id=None):
     print("read: ", path_to_crop_grid)
 
     # irrigation data
-    # path_to_irrigation_grid = paths["path-to-data-dir"] + DATA_GRID_IRRIGATION
-    # irrigation_epsg_code = int(path_to_irrigation_grid.split("/")[-1].split("_")[2])
-    # irrigation_crs = CRS.from_epsg(irrigation_epsg_code)
-    # if irrigation_crs not in soil_crs_to_x_transformers:
-    #     soil_crs_to_x_transformers[irrigation_crs] = Transformer.from_crs(soil_crs, irrigation_crs)
-    # irrigation_metadata, _ = Mrunlib.read_header(path_to_irrigation_grid)
-    # irrigation_grid = np.loadtxt(path_to_irrigation_grid, dtype=int, skiprows=6)
-    # irrigation_interpolate = Mrunlib.create_ascii_grid_interpolator(irrigation_grid, irrigation_metadata, False)
-    # print("read: ", path_to_irrigation_grid)
+    path_to_irrigation_grid = paths["path-to-data-dir"] + DATA_GRID_IRRIGATION
+    irrigation_epsg_code = int(path_to_irrigation_grid.split("/")[-1].split("_")[2])
+    irrigation_crs = CRS.from_epsg(irrigation_epsg_code)
+    if irrigation_crs not in soil_crs_to_x_transformers:
+        soil_crs_to_x_transformers[irrigation_crs] = Transformer.from_crs(soil_crs, irrigation_crs)
+    irrigation_metadata, _ = Mrunlib.read_header(path_to_irrigation_grid)
+    irrigation_grid = np.loadtxt(path_to_irrigation_grid, dtype=int, skiprows=6)
+    irrigation_interpolate = Mrunlib.create_ascii_grid_interpolator(irrigation_grid, irrigation_metadata, False)
+    print("read: ", path_to_irrigation_grid)
 
     # initialize irrigation manager
-    # irrigation_manager = IrrigationManager("irrigated_crops.json")
+    irrigation_manager = IrrigationManager("irrigated_crops.json")
 
     # Create the function for the mask. This function will later use the additional column in a setup file!
 
@@ -652,10 +652,10 @@ def run_producer(server={"server": None, "port": None}, shared_id=None):
                 slr, slh = tcoords[slope_crs]
                 slope = slope_interpolate(slr, slh)
 
-                # if irrigation_crs not in tcoords:
-                #     tcoords[irrigation_crs] = soil_crs_to_x_transformers[irrigation_crs].transform(sr, sh)
-                # irr_r, irr_h = tcoords[irrigation_crs]
-                # irrigation = int(irrigation_interpolate(irr_r, irr_h))
+                if irrigation_crs not in tcoords:
+                    tcoords[irrigation_crs] = soil_crs_to_x_transformers[irrigation_crs].transform(sr, sh)
+                irr_r, irr_h = tcoords[irrigation_crs]
+                irrigation = int(irrigation_interpolate(irr_r, irr_h))
 
                 env_template["params"]["userCropParameters"]["__enable_T_response_leaf_expansion__"] = setup[
                     "LeafExtensionModifier"]
@@ -732,19 +732,26 @@ def run_producer(server={"server": None, "port": None}, shared_id=None):
 
                 env_template["params"]["simulationParameters"]["UseAutomaticIrrigation"] = setup["irrigation"]
 
-                # set UseAutomaticIrrigation to True if irrigation setup is True and irrigation is 1
-                # if setup["irrigation"] and irrigation == 1:
-                #     # check if the crop type is in the irrigated crops map
-                #     if irrigation_manager.should_be_irrigated_by_crop_id(setup["crop-id"]):
-                #         env_template["params"]["simulationParameters"]["UseAutomaticIrrigation"] = True
-                #         # add default values for irrigation amount and threshold
-                #         env_template["params"]["simulationParameters"]["AutoIrrigationParams"]["amount"] = [10, "mm"]
-                #         env_template["params"]["simulationParameters"]["AutoIrrigationParams"]["threshold"] = 0.3
-                #     else:
-                #         env_template["params"]["simulationParameters"]["UseAutomaticIrrigation"] = False
-                #         # reset irrigation amount and threshold
-                #         env_template["params"]["simulationParameters"]["AutoIrrigationParams"]["amount"] = [0, "mm"]
-                #         env_template["params"]["simulationParameters"]["AutoIrrigationParams"]["threshold"] = 0.9
+                if setup["irrigation"] and irrigation == 1:
+                    # check if the crop type is in the irrigated crops map
+                    if irrigation_manager.should_be_irrigated_by_crop_id(setup["crop-id"]):
+                        env_template["params"]["simulationParameters"]["UseAutomaticIrrigation"] = True
+                        # add default values for irrigation amount and threshold
+                        env_template["params"]["simulationParameters"]["AutoIrrigationParams"]["amount"] = [10, "mm"]
+                        env_template["params"]["simulationParameters"]["AutoIrrigationParams"][
+                            "trigger_if_nFC_below_%"] = 30
+                        env_template["params"]["simulationParameters"]["AutoIrrigationParams"][
+                            "calc_nFC_until_depth_m"] = 0.3
+                        print("irrigation amount:",
+                              env_template["params"]["simulationParameters"]["AutoIrrigationParams"]["amount"])
+                    else:
+                        env_template["params"]["simulationParameters"]["UseAutomaticIrrigation"] = False
+                        # reset irrigation amount and threshold
+                        env_template["params"]["simulationParameters"]["AutoIrrigationParams"]["amount"] = [0, "mm"]
+                        env_template["params"]["simulationParameters"]["AutoIrrigationParams"][
+                            "trigger_if_nFC_below_%"] = 50
+                        env_template["params"]["simulationParameters"]["AutoIrrigationParams"][
+                            "calc_nFC_until_depth_m"] = 0.3
 
                 env_template["params"]["simulationParameters"]["NitrogenResponseOn"] = setup["NitrogenResponseOn"]
                 env_template["params"]["simulationParameters"]["WaterDeficitResponseOn"] = setup[
