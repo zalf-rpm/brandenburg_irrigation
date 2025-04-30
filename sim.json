@@ -48,7 +48,8 @@
 				["NLeach","SUM"],
 				["Ra","SUM"],
 				["N2O","SUM"],
-				["NH3","SUM"]
+				["NH3","SUM"],
+				["Act_ET|CumET","SUM"]
 			]
 		]
 	},
