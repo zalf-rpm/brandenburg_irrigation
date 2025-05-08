@@ -49,7 +49,8 @@
 				["Ra","SUM"],
 				["N2O","SUM"],
 				["NH3","SUM"],
-				["Act_ET|CumET","SUM"]
+				["Act_ET|CumET","SUM"],
+				["Irrig|CumIRR","SUM"]
 			]
 		]
 	},
