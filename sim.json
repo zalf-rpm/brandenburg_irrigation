@@ -43,6 +43,7 @@
 				["Year", "LAST"],
 				["Crop", "FIRST"],
 				["Yield", "LAST"],
+				["OrgBiom|RootBio", "Root"],
 				["SumNUp","LAST"],
 				["TotBiomN","LAST"],
 				["NLeach","SUM"],
