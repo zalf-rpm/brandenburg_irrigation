@@ -83,7 +83,7 @@ def write_row_to_grids(row_col_data, row, ncols, header, path_to_output_dir, pat
 
     output_grids = {
         "Yield": {"data": make_dict_nparr(), "cast-to": "float", "digits": 1},
-        "RootBio": {"data": make_dict_nparr(), "cast-to": "float", "digits": 1},
+        # "RootBio": {"data": make_dict_nparr(), "cast-to": "float", "digits": 1},
         # "SumNUp": {"data": make_dict_nparr(), "cast-to": "float", "digits": 1},
         # "TotBiomN": {"data": make_dict_nparr(), "cast-to": "float", "digits": 1},
         # "NLeach": {"data": make_dict_nparr(), "cast-to": "float", "digits": 1},
