@@ -60,8 +60,8 @@
 	"LayerThickness": [0.1, "m"],
 
 	"UseSecondaryYields": false,
-	"NitrogenResponseOn": true,
-	"WaterDeficitResponseOn": true,
+	"NitrogenResponseOn": false,
+	"WaterDeficitResponseOn": false,
 	"EmergenceMoistureControlOn": false,
 	"EmergenceFloodingControlOn": false,
 
