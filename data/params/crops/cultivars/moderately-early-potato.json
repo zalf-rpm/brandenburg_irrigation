@@ -73,12 +73,12 @@
   ],
   "Description": "",
   "DroughtStressThreshold": [
-    0.8,
-    0.8,
-    0.8,
-    0.8,
-    0.8,
-    0.8
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
   ],
   "EndSensitivePhaseHeatStress": [
     0,
