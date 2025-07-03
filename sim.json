@@ -43,6 +43,7 @@
 				["Year", "LAST"],
 				["Crop", "FIRST"],
 				["Yield", "LAST"],
+				["LAI|MaxLAI", "MAX"],
 				["OrgBiom|RootBio", "Root"],
 				["SumNUp","LAST"],
 				["TotBiomN","LAST"],
