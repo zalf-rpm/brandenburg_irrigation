@@ -16,12 +16,12 @@
   ],
   "CarboxylationPathway":1,
   "CriticalOxygenContent":[  
-    0.08,
-    0.08,
-    0.08,
-    0.08,
-    0.08,
-    0.08
+    0.029999999999999999,
+    0.029999999999999999,
+    0.029999999999999999,
+    0.029999999999999999,
+    0.029999999999999999,
+    0.029999999999999999
   ],
   "CuttingDelayDays":0,
   "DefaultRadiationUseEfficiency":0.5,
@@ -67,7 +67,7 @@
   "RootPenetrationRate":0.0010999999940395355,
   "SamplingDepth":0.89999997615814209,
   "SpeciesName":"sugar beet",
-  "SpecificRootLength":200,
+  "SpecificRootLength":300,
   "StageAfterCut":0,
   "StageAtMaxDiameter":3,
   "StageAtMaxHeight":3,
