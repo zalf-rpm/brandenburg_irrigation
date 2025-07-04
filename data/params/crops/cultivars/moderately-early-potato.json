@@ -58,7 +58,7 @@
   ],
   "CropHeightP1": 9,
   "CropHeightP2": 0.34999999403953552,
-  "CropSpecificMaxRootingDepth": 0.7,
+  "CropSpecificMaxRootingDepth": 0.6,
   "CultivarName": "moderately early potato",
   "DaylengthRequirement": [
     [
