@@ -67,7 +67,7 @@
   "RootPenetrationRate":0.00079999997979030013,
   "SamplingDepth":0.60000002384185791,
   "SpeciesName":"potato",
-  "SpecificRootLength":300,
+  "SpecificRootLength":200,
   "StageAfterCut":0,
   "StageAtMaxDiameter":3,
   "StageAtMaxHeight":3,

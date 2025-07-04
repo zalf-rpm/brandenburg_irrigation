@@ -67,7 +67,7 @@
   "RootPenetrationRate":0.0010999999940395355,
   "SamplingDepth":0.89999997615814209,
   "SpeciesName":"sugar beet",
-  "SpecificRootLength":300,
+  "SpecificRootLength":200,
   "StageAfterCut":0,
   "StageAtMaxDiameter":3,
   "StageAtMaxHeight":3,
