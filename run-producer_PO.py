@@ -87,7 +87,7 @@ DATA_SOIL_DB = "germany/buek200.sqlite"
 DATA_GRID_HEIGHT = "germany/dem_100_25832_etrs89-utm32n.asc"
 DATA_GRID_SLOPE = "germany/slope_100_25832_etrs89-utm32n.asc"
 DATA_GRID_SOIL = "germany/buek200_100_25832_etrs89-utm32n.asc"
-DATA_GRID_IRRIGATION = "germany/irrigation_100_25832_etrs89-utms32n_grains.asc"
+DATA_GRID_IRRIGATION = "germany/irrigation_100_25832_etrs89-utms32n_allcrops.asc"
 
 TEMPLATE_PATH_LATLON = "{path_to_climate_dir}/latlon-to-rowcol.json"
 # TEMPLATE_PATH_LATLON = "data/latlon_to_rowcol.json"
@@ -746,7 +746,7 @@ def run_producer(server={"server": None, "port": None}, shared_id=None):
 
                 # env_template["params"]["simulationParameters"]["UseAutomaticIrrigation"] = setup["irrigation"]
 
-                if setup["irrigation"] and irrigation == 1:
+                #if setup["irrigation"] and irrigation == 1:
                     # check if the crop type is in the irrigated crops map
                     if irrigation_manager.should_be_irrigated_by_crop_id(setup["crop-id"]):
                         env_template["params"]["simulationParameters"]["UseAutomaticIrrigation"] = True
@@ -770,14 +770,14 @@ def run_producer(server={"server": None, "port": None}, shared_id=None):
                         #     "set_to_%nFC"] = [100, "%"]
                         env_template["params"]["simulationParameters"]["AutoIrrigationParams"][
                             "calc_nFC_until_depth_m"] = [0.5, "m"]
-                else:
-                    env_template["params"]["simulationParameters"]["UseAutomaticIrrigation"] = False
-                    env_template["params"]["simulationParameters"]["AutoIrrigationParams"]["amount"] = [0, "mm"]
-                    env_template["params"]["simulationParameters"]["AutoIrrigationParams"]["trigger_if_nFC_below_%"] = [
-                        50, "%"]
-                    # env_template["params"]["simulationParameters"]["AutoIrrigationParams"]["set_to_%nFC"] = [100, "%"]
-                    env_template["params"]["simulationParameters"]["AutoIrrigationParams"]["calc_nFC_until_depth_m"] = [
-                        0.5, "m"]
+                # else:
+                #     env_template["params"]["simulationParameters"]["UseAutomaticIrrigation"] = False
+                #     env_template["params"]["simulationParameters"]["AutoIrrigationParams"]["amount"] = [0, "mm"]
+                #     env_template["params"]["simulationParameters"]["AutoIrrigationParams"]["trigger_if_nFC_below_%"] = [
+                #         50, "%"]
+                #     # env_template["params"]["simulationParameters"]["AutoIrrigationParams"]["set_to_%nFC"] = [100, "%"]
+                #     env_template["params"]["simulationParameters"]["AutoIrrigationParams"]["calc_nFC_until_depth_m"] = [
+                #         0.5, "m"]
 
                 env_template["params"]["simulationParameters"]["NitrogenResponseOn"] = setup["NitrogenResponseOn"]
                 env_template["params"]["simulationParameters"]["WaterDeficitResponseOn"] = setup[
