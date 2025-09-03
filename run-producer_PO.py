@@ -748,28 +748,28 @@ def run_producer(server={"server": None, "port": None}, shared_id=None):
 
                 #if setup["irrigation"] and irrigation == 1:
                     # check if the crop type is in the irrigated crops map
-                    if irrigation_manager.should_be_irrigated_by_crop_id(setup["crop-id"]):
-                        env_template["params"]["simulationParameters"]["UseAutomaticIrrigation"] = True
-                        # add default values for irrigation amount and threshold
-                        env_template["params"]["simulationParameters"]["AutoIrrigationParams"]["amount"] = [20, "mm"]
-                        env_template["params"]["simulationParameters"]["AutoIrrigationParams"][
-                            "trigger_if_nFC_below_%"] = [30, "%"]
-                        # env_template["params"]["simulationParameters"]["AutoIrrigationParams"][
-                        #     "set_to_%nFC"] = [100, "%"]
-                        env_template["params"]["simulationParameters"]["AutoIrrigationParams"][
-                            "calc_nFC_until_depth_m"] = [0.3, "m"]
-                        print("irrigation amount:",
-                              env_template["params"]["simulationParameters"]["AutoIrrigationParams"]["amount"])
-                    else:
-                        env_template["params"]["simulationParameters"]["UseAutomaticIrrigation"] = False
-                        # reset irrigation amount and threshold
-                        env_template["params"]["simulationParameters"]["AutoIrrigationParams"]["amount"] = [0, "mm"]
-                        env_template["params"]["simulationParameters"]["AutoIrrigationParams"][
-                            "trigger_if_nFC_below_%"] = [50, "%"]
-                        # env_template["params"]["simulationParameters"]["AutoIrrigationParams"][
-                        #     "set_to_%nFC"] = [100, "%"]
-                        env_template["params"]["simulationParameters"]["AutoIrrigationParams"][
-                            "calc_nFC_until_depth_m"] = [0.5, "m"]
+                if irrigation_manager.should_be_irrigated_by_crop_id(setup["crop-id"]):
+                    env_template["params"]["simulationParameters"]["UseAutomaticIrrigation"] = True
+                    # add default values for irrigation amount and threshold
+                    env_template["params"]["simulationParameters"]["AutoIrrigationParams"]["amount"] = [20, "mm"]
+                    env_template["params"]["simulationParameters"]["AutoIrrigationParams"][
+                        "trigger_if_nFC_below_%"] = [30, "%"]
+                    # env_template["params"]["simulationParameters"]["AutoIrrigationParams"][
+                    #     "set_to_%nFC"] = [100, "%"]
+                    env_template["params"]["simulationParameters"]["AutoIrrigationParams"][
+                        "calc_nFC_until_depth_m"] = [0.3, "m"]
+                    print("irrigation amount:",
+                          env_template["params"]["simulationParameters"]["AutoIrrigationParams"]["amount"])
+                else:
+                    env_template["params"]["simulationParameters"]["UseAutomaticIrrigation"] = False
+                    # reset irrigation amount and threshold
+                    env_template["params"]["simulationParameters"]["AutoIrrigationParams"]["amount"] = [0, "mm"]
+                    env_template["params"]["simulationParameters"]["AutoIrrigationParams"][
+                        "trigger_if_nFC_below_%"] = [50, "%"]
+                    # env_template["params"]["simulationParameters"]["AutoIrrigationParams"][
+                    #     "set_to_%nFC"] = [100, "%"]
+                    env_template["params"]["simulationParameters"]["AutoIrrigationParams"][
+                        "calc_nFC_until_depth_m"] = [0.5, "m"]
                 # else:
                 #     env_template["params"]["simulationParameters"]["UseAutomaticIrrigation"] = False
                 #     env_template["params"]["simulationParameters"]["AutoIrrigationParams"]["amount"] = [0, "mm"]
