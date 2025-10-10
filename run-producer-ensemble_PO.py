@@ -87,7 +87,7 @@ DATA_SOIL_DB = "germany/buek200.sqlite"
 DATA_GRID_HEIGHT = "germany/dem_100_25832_etrs89-utm32n.asc"
 DATA_GRID_SLOPE = "germany/slope_100_25832_etrs89-utm32n.asc"
 DATA_GRID_SOIL = "germany/buek200_100_25832_etrs89-utm32n.asc"
-DATA_GRID_IRRIGATION = "germany/irrigation_100_25832_etrs89-utms32n_grains_2018.asc"
+DATA_GRID_IRRIGATION = "germany/irrigation_100_25832_etrs89-utms32n_allcrops.asc"
 
 TEMPLATE_PATH_LATLON = "{path_to_climate_dir}/latlon-to-rowcol.json"
 # TEMPLATE_PATH_LATLON = "data/latlon_to_rowcol.json"
@@ -760,7 +760,7 @@ def run_producer(server={"server": None, "port": None}, shared_id=None):
                         env_template["params"]["simulationParameters"]["AutoIrrigationParams"][
                             "calc_nFC_until_depth_m"] = [0.3, "m"]
                         print("irrigation amount:",
-                              env_template["params"]["simulationParameters"]["AutoIrrigationParams"]["amount"])
+                            env_template["params"]["simulationParameters"]["AutoIrrigationParams"]["amount"])
                     else:
                         env_template["params"]["simulationParameters"]["UseAutomaticIrrigation"] = False
                         # reset irrigation amount and threshold
