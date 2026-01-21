@@ -44,12 +44,10 @@ PATHS = {
         "path-to-data-dir": "./data/",  # mounted path to archive or hard drive with data
         "path-debug-write-folder": "./debug-out/",
     },
-    # adjust the local path to your environment
-    "ow-local-remote": {
+    "re-local-local": {
         # "include-file-base-path": "/home/berg/GitHub/monica-parameters/", # path to monica-parameters
-        "path-to-climate-dir": "/beegfs/common/data/climate/",
-        # mounted path to archive or hard drive with climate data
-        "monica-path-to-climate-dir": "/monica_data/climate-data/",
+        "path-to-climate-dir": "./data/climate/dwd",
+        "monica-path-to-climate-dir": "F:/climate/",
         # mounted path to archive accessable by monica executable
         "path-to-data-dir": "./data/",  # mounted path to archive or hard drive with data
         "path-debug-write-folder": "./debug-out/",
@@ -72,7 +70,6 @@ PATHS = {
         "path-to-data-dir": "./data/",  # mounted path to archive or hard drive with data
         "path-debug-write-folder": "./debug-out/",
     },
-
     "remoteProducer-remoteMonica": {
         # "include-file-base-path": "/monica-parameters/", # path to monica-parameters
         "path-to-climate-dir": "/data/",  # mounted path to archive or hard drive with climate data
@@ -81,8 +78,7 @@ PATHS = {
         "path-to-data-dir": "./data/",  # mounted path to archive or hard drive with data
         "path-debug-write-folder": "/out/debug-out/",
     },
-
-        "mp-local-local": {
+    "mp-local-local": {
         # "include-file-base-path": "/home/berg/GitHub/monica-parameters/", # path to monica-parameters
         "path-to-climate-dir": "C:/Users/palka/climate_brandenburg/",  # change to wherever
         "monica-path-to-climate-dir": "C:/Users/palka/climate_brandenburg/",
@@ -102,7 +98,7 @@ DATA_GRID_IRRIGATION = "germany/irrigation_100_25832_etrs89-utms32n_grains_2018.
 # TEMPLATE_PATH_LATLON = "data/latlon_to_rowcol.json"
 TEMPLATE_PATH_LATLON = "data/latlon-to-rowcol.json" ##Change accordingly
 # TEMPLATE_PATH_CLIMATE_CSV = "{gcm}/{rcm}/{scenario}/{ensmem}/{version}/row-{crow}/col-{ccol}.csv"
-TEMPLATE_PATH_CLIMATE_CSV = "{gcm}/{rcm}/{scenario}/{ensmem}/{version}/{crow}/daily_mean_RES1_C{ccol}R{crow}.csv.gz"
+TEMPLATE_PATH_CLIMATE_CSV = "{gcm}/{rcm}/{scenario}/{ensmem}/{version}/{crow}/daily_mean_RES1_C{ccol}R{crow}.csv"
 
 # Additional data for masking the regions
 NUTS3_REGIONS = "data/germany/BRA_BER_25832_merge.shp"
@@ -133,7 +129,6 @@ def run_producer(server={"server": None, "port": None}, shared_id=None):
         "server": server["server"] if server["server"] else "localhost",
         "start-row": "0",
         "end-row": "-1",
-        "path_to_dem_grid": "",
         "sim.json": "sim.json",
         "crop.json": "crop.json",
         "site.json": "site.json",
@@ -799,44 +794,44 @@ def run_producer(server={"server": None, "port": None}, shared_id=None):
 
                 env_template["csvViaHeaderOptions"] = sim_json["climate.csv-options"]
 
-                # subpath_to_csv = TEMPLATE_PATH_CLIMATE_CSV.format(gcm=gcm, rcm=rcm, scenario=scenario, ensmem=ensmem,
-                #                                                   version=version, crow=str(crow), ccol=str(ccol))
-                # for _ in range(4):
-                #     subpath_to_csv = subpath_to_csv.replace("//", "/")
-                # env_template["pathToClimateCSV"] = [
-                #     paths["monica-path-to-climate-dir"] + setup["climate_path_to_csvs"] + "/" + subpath_to_csv]
-                # if setup["incl_hist"]:
-                #
-                #     if rcm[:3] == "UHO":
-                #         hist_subpath_to_csv = TEMPLATE_PATH_CLIMATE_CSV.format(gcm=gcm, rcm="CLMcom-CCLM4-8-17",
-                #                                                                scenario="historical", ensmem=ensmem,
-                #                                                                version=version, crow=str(crow),
-                #                                                                ccol=str(ccol))
-                #         for _ in range(4):
-                #             hist_subpath_to_csv = hist_subpath_to_csv.replace("//", "/")
-                #         env_template["pathToClimateCSV"].insert(0, paths["monica-path-to-climate-dir"] + setup[
-                #             "climate_path_to_csvs"] + "/" + hist_subpath_to_csv)
-                #
-                #     elif rcm[:3] == "SMH":
-                #         hist_subpath_to_csv = TEMPLATE_PATH_CLIMATE_CSV.format(gcm=gcm, rcm="CLMcom-CCLM4-8-17",
-                #                                                                scenario="historical", ensmem=ensmem,
-                #                                                                version=version, crow=str(crow),
-                #                                                                ccol=str(ccol))
-                #         for _ in range(4):
-                #             hist_subpath_to_csv = hist_subpath_to_csv.replace("//", "/")
-                #         env_template["pathToClimateCSV"].insert(0, paths["monica-path-to-climate-dir"] + setup[
-                #             "climate_path_to_csvs"] + "/" + hist_subpath_to_csv)
-                #
-                #     hist_subpath_to_csv = TEMPLATE_PATH_CLIMATE_CSV.format(gcm=gcm, rcm=rcm, scenario="historical",
-                #                                                            ensmem=ensmem, version=version,
-                #                                                            crow=str(crow), ccol=str(ccol))
-                #     for _ in range(4):
-                #         hist_subpath_to_csv = hist_subpath_to_csv.replace("//", "/")
-                #     env_template["pathToClimateCSV"].insert(0, paths["monica-path-to-climate-dir"] + setup[
-                #         "climate_path_to_csvs"] + "/" + hist_subpath_to_csv)
-                env_template["pathToClimateCSV"] = \
-                    paths["monica-path-to-climate-dir"] + \
-                    f"dwd/csvs/germany_ubn_1951-01-01_to_2024-08-30/{int(crow)}/daily_mean_RES1_C{int(ccol)}R{int(crow)}.csv.gz"
+                subpath_to_csv = TEMPLATE_PATH_CLIMATE_CSV.format(gcm=gcm, rcm=rcm, scenario=scenario, ensmem=ensmem,
+                                                                  version=version, crow=str(int(crow)), ccol=str(int(ccol)))
+                for _ in range(4):
+                    subpath_to_csv = subpath_to_csv.replace("//", "/")
+                env_template["pathToClimateCSV"] = [
+                    paths["monica-path-to-climate-dir"] + setup["climate_path_to_csvs"] + "/" + subpath_to_csv]
+                if setup["incl_hist"]:
+
+                    if rcm[:3] == "UHO":
+                        hist_subpath_to_csv = TEMPLATE_PATH_CLIMATE_CSV.format(gcm=gcm, rcm="CLMcom-CCLM4-8-17",
+                                                                               scenario="historical", ensmem=ensmem,
+                                                                               version=version, crow=str(crow),
+                                                                               ccol=str(ccol))
+                        for _ in range(4):
+                            hist_subpath_to_csv = hist_subpath_to_csv.replace("//", "/")
+                        env_template["pathToClimateCSV"].insert(0, paths["monica-path-to-climate-dir"] + setup[
+                            "climate_path_to_csvs"] + "/" + hist_subpath_to_csv)
+
+                    elif rcm[:3] == "SMH":
+                        hist_subpath_to_csv = TEMPLATE_PATH_CLIMATE_CSV.format(gcm=gcm, rcm="CLMcom-CCLM4-8-17",
+                                                                               scenario="historical", ensmem=ensmem,
+                                                                               version=version, crow=str(crow),
+                                                                               ccol=str(ccol))
+                        for _ in range(4):
+                            hist_subpath_to_csv = hist_subpath_to_csv.replace("//", "/")
+                        env_template["pathToClimateCSV"].insert(0, paths["monica-path-to-climate-dir"] + setup[
+                            "climate_path_to_csvs"] + "/" + hist_subpath_to_csv)
+
+                    hist_subpath_to_csv = TEMPLATE_PATH_CLIMATE_CSV.format(gcm=gcm, rcm=rcm, scenario="historical",
+                                                                           ensmem=ensmem, version=version,
+                                                                           crow=str(crow), ccol=str(ccol))
+                    for _ in range(4):
+                        hist_subpath_to_csv = hist_subpath_to_csv.replace("//", "/")
+                    env_template["pathToClimateCSV"].insert(0, paths["monica-path-to-climate-dir"] + setup[
+                        "climate_path_to_csvs"] + "/" + hist_subpath_to_csv)
+                # env_template["pathToClimateCSV"] = \
+                #     paths["monica-path-to-climate-dir"] + \
+                #     f"dwd/csvs/germany_ubn_1951-01-01_to_2024-08-30/{int(crow)}/daily_mean_RES1_C{int(ccol)}R{int(crow)}.csv.gz"
                 print("pathToClimateCSV:", env_template["pathToClimateCSV"])
 
                 #if DEBUG_WRITE_CLIMATE:
