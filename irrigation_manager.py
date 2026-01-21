@@ -26,7 +26,7 @@ class IrrigationManager:
     def should_be_irrigated_by_crop_id(self, crop_id):
         # iterate over the crops and cultivars in the irrigated crops map
         for specie in self.irrigated_crops_map["crops"]:
-            print(f"Checking species: {specie['SpeciesName']}")
+            # print(f"Checking species: {specie['SpeciesName']}")
             for cultivar in specie["Cultivars"]:
                 # check if the crop id is in the list of crop ids
                 if isinstance(cultivar["CropID"], list):
@@ -34,37 +34,37 @@ class IrrigationManager:
                     # if the crop ID is in the list, return the irrigated value
                     if crop_id in cultivar["CropID"]:
                         if not cultivar["Irrigated"]:
-                            print(f'{crop_id} is not irrigated.')
+                            # print(f'{crop_id} is not irrigated.')
                             return False
-                        print(f'{crop_id} is irrigated.')
+                        # print(f'{crop_id} is irrigated.')
                         return cultivar["Irrigated"]
                 else:
                     # check if the crop ID passed in is equal to the crop ID in irrigated_crops.json
                     if crop_id == cultivar["CropID"]:
-                        if not cultivar["Irrigated"]:
-                            print(f'{crop_id} is not irrigated.')
-                        print(f'{crop_id} is irrigated.')
+                        # if not cultivar["Irrigated"]:
+                        #     print(f'{crop_id} is not irrigated.')
+                        # print(f'{crop_id} is irrigated.')
                         return cultivar["Irrigated"]
 
         # return False if the crop type based on crop ID should not be irrigated
-        print(f'{crop_id} is not irrigated.')
+        # print(f'{crop_id} is not irrigated.')
         return False
 
     def should_be_irrigated_by_cultivar_name(self, cultivar_name):
         # iterate over the crops and cultivars in the irrigated crops map
         for specie in self.irrigated_crops_map["crops"]:
-            print(f"Checking species: {specie['SpeciesName']}")
+            # print(f"Checking species: {specie['SpeciesName']}")
             for cultivar in specie["Cultivars"]:
                 # check if the cultivar name passed in is equal to the crop ID in irrigated_crops.json
                 if cultivar_name == cultivar["CultivarName"]:
                     if not cultivar["Irrigated"]:
-                        print(f'{cultivar_name} is not irrigated.')
+                        # print(f'{cultivar_name} is not irrigated.')
                         return False
-                    print(f'{cultivar_name} is irrigated.')
+                    # print(f'{cultivar_name} is irrigated.')
                     return cultivar["Irrigated"]
 
         # return False if the crop type based on cultivar name should not be irrigated
-        print(f'{cultivar_name} is not irrigated.')
+        # print(f'{cultivar_name} is not irrigated.')
         return False
 
 
